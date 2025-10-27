@@ -1,0 +1,24 @@
+#version 460
+
+layout(location = 0) in vec3 apos;
+layout(location = 1) in vec3 acolor;
+layout(location = 2) in uint instance_index;
+
+
+
+uniform mat4 view;
+uniform mat4 projection;
+
+
+layout(std430, binding = 0) buffer Matrices {
+    mat4 model[];
+};
+
+
+out vec3 color;
+
+void main() {
+    mat4 modelMatrix = model[instance_index];
+    gl_Position = projection * view * modelMatrix * vec4(apos, 1.0);
+    color = acolor;
+}
