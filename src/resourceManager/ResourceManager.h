@@ -23,10 +23,10 @@ public:
 
 	ptrToProg addProgram(const std::string& name, const std::string& vertexPath, const std::string& fragmentPath);
 	ptrToProg getProgram(const std::string& name);
+
 	ptrToTO addTexture(const std::string& name, const std::string& path);
 	ptrToTO getTexture(const std::string& name);
-	const std::shared_ptr<Mesh>& get_mesh(std::string& mesh_id);
-	void set_mesh(std::string& mesh_id, std::shared_ptr<Mesh> mesh);
+
 	void remove(std::string& mesh_id);
 private:
 	std::string resPath;

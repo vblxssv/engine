@@ -66,16 +66,6 @@ ptrToTO ResourceManager::getTexture(const std::string& name)
 	return nullptr;
 }
 
-const std::shared_ptr<Mesh>& ResourceManager::get_mesh(std::string& mesh_id)
-{
-	auto it = mesh_map.find(mesh_id);
-	return (it != mesh_map.end()) ? it->second : nullptr;
-}
-
-void ResourceManager::set_mesh(std::string& mesh_id, std::shared_ptr<Mesh> mesh)
-{
-	mesh_map[mesh_id] = std::move(mesh);
-}
 
 void ResourceManager::remove(std::string& mesh_id)
 {

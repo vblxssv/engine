@@ -47,6 +47,9 @@ add_executable(${NAME}
     src/scene/Scene.cpp
     src/keyboard/Keyboard.h
     src/keyboard/Keyboard.cpp
+    src/resource/Resource.h
+src/resource/Shader.cpp
+src/resource/Texture.cpp
 )
 
 
