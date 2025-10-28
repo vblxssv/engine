@@ -50,6 +50,10 @@ add_executable(${NAME}
     src/resource/Resource.h
 src/resource/Shader.cpp
 src/resource/Texture.cpp
+src/resourceLoader/ShaderLoader.h
+src/resourceLoader/TextureLoader.h
+src/resourceLoader/ShaderLoader.cpp
+src/resourceLoader/TextureLoader.cpp
 )
 
 

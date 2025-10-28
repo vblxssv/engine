@@ -32,7 +32,6 @@ private:
 	std::string resPath;
 	progMap shaderMap;
 	textMap textureMap;
-	std::unordered_map<std::string, std::shared_ptr<Mesh>> mesh_map;
 
 
 	std::string getFileString(const std::string& relatedPath);

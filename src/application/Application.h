@@ -20,6 +20,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "../resource/Resource.h"
 
 
 class Application {
@@ -52,6 +53,8 @@ public:
 	void test_run();
 
 	void test_run2();
+
+	
 };
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);

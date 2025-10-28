@@ -141,6 +141,8 @@ void Application::test_run2()
     auto texture = resource_manager.getTexture("caban2");
     auto program = resource_manager.getProgram("texture_instance");
 
+
+
     program->use();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture->get_id());

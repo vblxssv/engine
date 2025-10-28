@@ -1,6 +1,5 @@
 #include "ResourceManager.h"
-#define STB_IMAGE_IMPLEMENTATION
-#include "../../external/stb_image/stb_image.h"
+
 
 ResourceManager::ResourceManager(const std::string& pathToRes)
 {
@@ -37,24 +36,7 @@ ptrToProg ResourceManager::getProgram(const std::string& name)
 
 ptrToTO ResourceManager::addTexture(const std::string& name, const std::string& path)
 {
-	stbi_set_flip_vertically_on_load(true); 
-
-	int w, h, ch;
-	unsigned char* data = loadTexture(path, &w, &h, &ch);
-	
-
-	std::shared_ptr<TextureObject> ptr = std::make_shared<TextureObject>(data, w, h, ch);
-
-
-	if (!ptr) {
-		std::cout << "texture not compiled\n";
-		return nullptr;
-	}
-
-	textureMap.emplace(name, ptr);
-
-	stbi_image_free(data);
-	return ptr;
+	return nullptr;
 }
 
 ptrToTO ResourceManager::getTexture(const std::string& name)
@@ -66,11 +48,12 @@ ptrToTO ResourceManager::getTexture(const std::string& name)
 	return nullptr;
 }
 
-
 void ResourceManager::remove(std::string& mesh_id)
 {
-	mesh_map.erase(mesh_id);
 }
+
+
+
 
 
 
@@ -90,14 +73,8 @@ std::string ResourceManager::getFileString(const std::string& relatedPath)
 
 unsigned char* ResourceManager::loadTexture(const std::string& relatedPath, int* width, int* height, int* channels)
 {
-	std::string fullPath = resPath + relatedPath;	
-	unsigned char* data = stbi_load(fullPath.c_str(), width, height, channels, 0);
-
-	if (!data) {
-		std::cerr << "Error: Failed to load texture from " << fullPath << std::endl;
-		return nullptr;
-	}
-
-	return data;
+	return nullptr;
 }
+
+
 
