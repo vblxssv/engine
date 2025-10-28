@@ -1,8 +1,3 @@
-
-
-
-
-
 class Scene {
 private:
 

@@ -7,12 +7,12 @@ Application::~Application()
     glfwTerminate();
 }
 
-Application::Application(int width, int height, const std::string& path_to_exe)
+Application::Application(int width, int height)
     : screen(width, height, true),
     camera({ 0,0,3 }, { 0,0,-1 }, 90.f),
     limiter(144)
 {
-    modelLoc = viewLoc = projLoc = -1;
+
 }
 
 bool Application::init()
@@ -60,12 +60,16 @@ bool Application::init()
 
 void Application::test_run()
 {
-    auto shader = ShaderLoader::load(
+  
+    resource_manager.add_resource("standart_shader", ShaderLoader::load(
         "instanced_texture/vertex.txt",
         "instanced_texture/fragment.txt"
-    );
+    ));
+    resource_manager.add_resource("kaben", TextureLoader::load("kaban.png"));
 
-    auto texture = TextureLoader::load("kaban.png");
+    std::shared_ptr<Texture> texture = std::static_pointer_cast<Texture>(resource_manager.get_resource("kaben"));
+    std::shared_ptr<Shader> shader = std::static_pointer_cast<Shader>(resource_manager.get_resource("standart_shader"));
+
 
     shader->use();
     texture->activate();

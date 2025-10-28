@@ -31,10 +31,9 @@ private:
 	Screen screen;
 	FrameLimiter limiter;
 	ResourceManager resource_manager;
-	GLint modelLoc, viewLoc, projLoc;
 	EventManager event_manager;
 public:
-	Application(int width, int height, const std::string& path_to_exe);
+	Application(int width, int height);
 
 	~Application();
 
