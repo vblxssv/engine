@@ -33,6 +33,16 @@ void Shader::set_uniform_uint(const std::string& name, GLuint value)
 	glUniform1ui(location, value);
 }
 
+void Shader::set_uniform_int(const std::string& name, GLint value)
+{
+	GLint location = glGetUniformLocation(id_, name.c_str());
+	if (location == -1) {
+		std::cout << "Warning: uniform '" << name << "' not found!\n";
+		return;
+	}
+	glUniform1ui(location, value);
+}
+
 void Shader::set_uniform_float(const std::string& name, GLfloat value)
 {
 	GLint location = glGetUniformLocation(id_, name.c_str());

@@ -4,6 +4,7 @@
 
 std::shared_ptr<Texture> TextureLoader::load(const std::string& path)
 {
+    stbi_set_flip_vertically_on_load(true);
     int width, height, channels;
 
     unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);

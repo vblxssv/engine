@@ -3,7 +3,7 @@
 #include <memory>
 
 
-#include "../renderer/ShaderProgram.h"
+
 #include "../ResourceManager/ResourceManager.h"
 #include "../math/Math.h"
 #include "../camera/Camera.h"

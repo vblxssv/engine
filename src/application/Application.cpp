@@ -1,4 +1,6 @@
 #include "Application.h"
+#include "../resourceLoader/ShaderLoader.h"
+#include "../resourceLoader/TextureLoader.h"
 
 Application::~Application()
 {
@@ -8,7 +10,6 @@ Application::~Application()
 Application::Application(int width, int height, const std::string& path_to_exe)
     : screen(width, height, true),
     camera({ 0,0,3 }, { 0,0,-1 }, 90.f),
-    resource_manager(path_to_exe),
     limiter(144)
 {
     modelLoc = viewLoc = projLoc = -1;
@@ -29,13 +30,6 @@ bool Application::init()
     }
 
     glEnable(GL_DEPTH_TEST);
-
-    resource_manager.addProgram("ilka", "shaders/color_3d/vertex3dshader.txt", "shaders/color_3d/fragment3dshader.txt")->use();
-    GLuint shaderProgram = resource_manager.getProgram("ilka")->getID();
-
-    modelLoc = glGetUniformLocation(shaderProgram, "model");
-    viewLoc = glGetUniformLocation(shaderProgram, "view");
-    projLoc = glGetUniformLocation(shaderProgram, "projection");
 
     glfwSetWindowUserPointer(screen.getWin(), this);
     glfwSetInputMode(screen.getWin(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -65,89 +59,22 @@ bool Application::init()
 void Application::test_run()
 {
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    auto shader = resource_manager.addProgram("instance2",
-        "shaders/instanced_2.0/vertex.txt",
-        "shaders/instanced_2.0/fragment.txt");
-
-    shader->use();
-    std::cout << shader->compiled();
-    
-    GLuint shaderProgram = shader->getID();
-    viewLoc = glGetUniformLocation(shaderProgram, "view");
-    projLoc = glGetUniformLocation(shaderProgram, "projection");
-    
-
-    glm::mat4 projection = glm::perspective(glm::radians(camera.get_fov()), screen.aspect(), 0.1f, 100.0f);
-    
-
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera.get_view()));
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-
-    Mesh mesh;
-    mesh.use();
-
-    int count = 0;
-    float spacing = 3.f;
-    int side = 10; // 10 x 10 x 10 = 1000
-    std::vector<Actor*> actors;
-    std::vector<glm::mat4> models;
-
-    for (int x = 0; x < side ; ++x) {
-        for (int y = 0; y < side ; ++y) {
-            for (int z = 0; z < side * 10; ++z) {
-                Actor* actor = new Actor;
-                actor->move({ x * spacing - 10.f, y * spacing - 10.f, z * spacing - 10.f});
-                actors.push_back(actor);
-                models.push_back(actor->get_model());
-                mesh.add_index(count++);
-            }
-        }
-    }
-    
-    
-    
-    SSBO ssbo;
-    ssbo.set_data(models);
-
-    //glClearColor(1, 1, 1, 1);
-
-    while (!glfwWindowShouldClose(screen.getWin())) {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        glDrawElementsInstanced(GL_TRIANGLES, mesh.get_indices(), GL_UNSIGNED_INT, 0, models.size());
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera.get_view()));
-        glfwSwapBuffers(screen.getWin());
-        screen.update();
-        limiter.wait();
-    }
-
-    for (auto el : actors) {
-        delete el;
-    }
+   
 }
 
 void Application::test_run2()
 {
-    resource_manager.addProgram("texture_instance",
-        "shaders/instanced_texture/vertex.txt",
-        "shaders/instanced_texture/fragment.txt");
-    std::cout << resource_manager.getProgram("texture_instance")->compiled() << std::endl;
-    resource_manager.addTexture("caban2", "textures\\kaban.png");
-
-  
+    auto shader = ShaderLoader::load("D:\\Desktop\\proga\\c++++\\3d\\build\\Debug\\res\\shaders\\instanced_texture\\vertex.txt", 
+        "D:\\Desktop\\proga\\c++++\\3d\\build\\Debug\\res\\shaders\\instanced_texture\\fragment.txt");
 
 
-    auto texture = resource_manager.getTexture("caban2");
-    auto program = resource_manager.getProgram("texture_instance");
+    auto texture = TextureLoader::load("D:\\Desktop\\proga\\c++++\\3d\\build\\Debug\\res\\textures\\kaban.png");
 
+    shader->use();
+    texture->activate(GL_TEXTURE0);
+    texture->bind(GL_TEXTURE_2D);
+    shader->set_uniform_int("texture1", 0);
 
-
-    program->use();
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture->get_id());
-    GLint loc = glGetUniformLocation(program->getID(), "texture1");
-    glUniform1i(loc, 0);
 
     std::vector<float> vertices = {
         // Front face (z = +1)
@@ -196,7 +123,6 @@ void Application::test_run2()
     };
 
 
-
     int side = 30;
     float spacing = 1.f;
     std::vector<glm::mat4> models;
@@ -218,18 +144,19 @@ void Application::test_run2()
         }
     }
 
-
-
     std::vector<GLuint> indices_vbo(side * side);
     for (int i = 0; i < side * side; ++i)
         indices_vbo[i] = i;
 
-    viewLoc = glGetUniformLocation(program->getID(), "view");
-    projLoc = glGetUniformLocation(program->getID(), "projection");
+    shader->use();
 
     glm::mat4 projection = glm::perspective(glm::radians(camera.get_fov()), screen.aspect(), 0.1f, 100.0f);
-    glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera.get_view()));
-    glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+    shader->set_uniform_mat4("view", camera.get_view());
+    shader->set_uniform_mat4("projection", projection);
+
+
+
 
     std::unique_ptr<VBO<GLfloat>> vbo = std::make_unique<VBO<GLfloat>>();
     vbo->setData(vertices);
@@ -260,7 +187,7 @@ void Application::test_run2()
 
         glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, side * side);
 
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(camera.get_view()));
+        shader->set_uniform_mat4("view", camera.get_view());
 
         glfwSwapBuffers(screen.getWin());
         screen.update();

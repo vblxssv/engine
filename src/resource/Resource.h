@@ -42,6 +42,7 @@ public:
 	void use();
 
     void set_uniform_uint(const std::string& name, GLuint value);
+    void set_uniform_int(const std::string& name, GLint value);
     void set_uniform_float(const std::string& name, GLfloat value);
     void set_uniform_mat4(const std::string& name, const glm::mat4& mat4);
 
