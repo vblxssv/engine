@@ -8,7 +8,7 @@ int main(int argc, char** argv) {
 		std::cout << "can't initialize app\n";
 		return -1;
 	}
-	app.test_run2();
+	app.test_run();
 
 	std::cout << argv[0] << std::endl;
 }

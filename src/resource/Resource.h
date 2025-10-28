@@ -22,8 +22,8 @@ public:
     Texture(GLuint id, int width, int height, int channels);
     ~Texture();
 
-    void bind(GLenum target) const;
-    void activate(GLenum slot) const;
+    void bind(GLenum target = GL_TEXTURE_2D) const;
+    void activate(GLenum slot = GL_TEXTURE0) const;
 
     GLuint id() const;
     int width() const;

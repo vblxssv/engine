@@ -2,12 +2,14 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../external/stb_image/stb_image.h"
 
+std::string TextureLoader::texture_path = "../res/textures/";
+
 std::shared_ptr<Texture> TextureLoader::load(const std::string& path)
 {
     stbi_set_flip_vertically_on_load(true);
     int width, height, channels;
 
-    unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+    unsigned char* data = stbi_load((texture_path + path).c_str(), &width, &height, &channels, 0);
     if (!data) {
         std::cerr << "Error: Failed to load texture from " << path << std::endl;
         return nullptr;

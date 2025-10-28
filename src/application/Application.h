@@ -50,11 +50,7 @@ public:
 
 	//void run();
 
-	void test_run();
-
-	void test_run2();
-
-	
+	void test_run();	
 };
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);

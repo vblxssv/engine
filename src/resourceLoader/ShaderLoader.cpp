@@ -3,12 +3,15 @@
 #include <fstream>
 #include <sstream>
 
+std::string ShaderLoader::shader_path = "../res/shaders/";
+
+
 std::shared_ptr<Shader> ShaderLoader::load(const std::string& vertex_path, const std::string& fragment_path)
 {
     try {
         // 1. Читаем исходники
-        std::string vertexSrc = get_file_string(vertex_path);
-        std::string fragmentSrc = get_file_string(fragment_path);
+        std::string vertexSrc = get_file_string(shader_path + vertex_path);
+        std::string fragmentSrc = get_file_string(shader_path + fragment_path);
 
         // 2. Компилируем шейдеры
         GLuint vertexID, fragmentID;

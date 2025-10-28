@@ -56,23 +56,20 @@ bool Application::init()
     return true;
 }
 
+
+
 void Application::test_run()
 {
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-   
-}
+    auto shader = ShaderLoader::load(
+        "instanced_texture/vertex.txt",
+        "instanced_texture/fragment.txt"
+    );
 
-void Application::test_run2()
-{
-    auto shader = ShaderLoader::load("D:\\Desktop\\proga\\c++++\\3d\\build\\Debug\\res\\shaders\\instanced_texture\\vertex.txt", 
-        "D:\\Desktop\\proga\\c++++\\3d\\build\\Debug\\res\\shaders\\instanced_texture\\fragment.txt");
-
-
-    auto texture = TextureLoader::load("D:\\Desktop\\proga\\c++++\\3d\\build\\Debug\\res\\textures\\kaban.png");
+    auto texture = TextureLoader::load("kaban.png");
 
     shader->use();
-    texture->activate(GL_TEXTURE0);
-    texture->bind(GL_TEXTURE_2D);
+    texture->activate();
+    texture->bind();
     shader->set_uniform_int("texture1", 0);
 
 

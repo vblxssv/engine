@@ -11,12 +11,12 @@ Texture::~Texture()
 	glDeleteTextures(1, &id_);
 }
 
-void Texture::bind(GLenum target = GL_TEXTURE_2D) const
+void Texture::bind(GLenum target) const
 {
 	glBindTexture(target, id_);
 }
 
-void Texture::activate(GLenum slot = GL_TEXTURE0) const
+void Texture::activate(GLenum slot) const
 {
 	glActiveTexture(slot);
 }
