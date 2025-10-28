@@ -6,8 +6,6 @@ project(${NAME})
 
 add_executable(${NAME} 
     src/main.cpp
-    src/Renderer/ShaderProgram.h 
-    src/Renderer/ShaderProgram.cpp
     src/ResourceManager/ResourceManager.h
     src/ResourceManager/ResourceManager.cpp
     src/math/math.h
@@ -25,14 +23,10 @@ add_executable(${NAME}
     src/screen/Screen.h
     src/screen/Screen.cpp
     external/stb_image/stb_image.h
-    src/textureObject/TextureObject.h
-    src/textureObject/TextureObject.cpp
     src/geometry/Geometry.h
     src/geometry/Geometry.cpp
     src/object3d/Object3d.h
     src/object3d/Object3d.cpp
-    src/renderer/Renderer.h
-    src/renderer/Renderer.cpp
     src/attribute/Attribute.h
     src/attribute/Attribute.cpp
     src/framelimiter/FrameLimiter.h
