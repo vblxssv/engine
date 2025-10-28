@@ -4,53 +4,14 @@ set(NAME z)
 
 project(${NAME})
 
-add_executable(${NAME} 
-    src/main.cpp
-    src/ResourceManager/ResourceManager.h
-    src/ResourceManager/ResourceManager.cpp
-    src/math/math.h
-    src/math/math.cpp
-    src/memory/VAO.h
-    src/memory/VAO.cpp
-    src/memory/VBO.h
-    src/memory/VBO.cpp
-    src/memory/EBO.h
-    src/memory/EBO.cpp
-    src/camera/Camera.h
-    src/camera/Camera.cpp
-    src/IO/Cursor.h
-    src/IO/Cursor.cpp
-    src/screen/Screen.h
-    src/screen/Screen.cpp
-    external/stb_image/stb_image.h
-    src/geometry/Geometry.h
-    src/geometry/Geometry.cpp
-    src/object3d/Object3d.h
-    src/object3d/Object3d.cpp
-    src/attribute/Attribute.h
-    src/attribute/Attribute.cpp
-    src/framelimiter/FrameLimiter.h
-    src/framelimiter/FrameLimiter.cpp
-    src/application/Application.h
-    src/application/Application.cpp
-    src/event/Event.h
-    src/event/Event.cpp
-    src/ssbo/SSBO.h
-    src/ssbo/SSBO.cpp
-    src/scene/Scene.h
-    src/scene/Scene.cpp
-    src/keyboard/Keyboard.h
-    src/keyboard/Keyboard.cpp
-    src/resource/Resource.h
-src/resource/Shader.cpp
-src/resource/Texture.cpp
-src/resourceLoader/ShaderLoader.h
-src/resourceLoader/TextureLoader.h
-src/resourceLoader/ShaderLoader.cpp
-src/resourceLoader/TextureLoader.cpp
-)
+
+file(GLOB_RECURSE CPP_FILES src/*.cpp)
+file(GLOB_RECURSE H_FILES   src/*.h src/*.hpp)
 
 
+set(SRC_FILES ${CPP_FILES} ${H_FILES})
+
+add_executable(${NAME} ${SRC_FILES})
 
 set (GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE) 
 set (GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE) 
