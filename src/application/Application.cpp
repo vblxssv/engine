@@ -160,13 +160,13 @@ void Application::test_run()
 
 
     std::unique_ptr<VBO<GLfloat>> vbo = std::make_unique<VBO<GLfloat>>();
-    vbo->setData(vertices);
+    vbo->set_data(vertices);
 
     std::unique_ptr<EBO> ebo = std::make_unique<EBO>();
     ebo->setData(indices);
 
     std::unique_ptr<VBO<GLuint>> instanceVBO = std::make_unique<VBO<GLuint>>();
-    instanceVBO->setData(indices_vbo);
+    instanceVBO->set_data(indices_vbo);
 
     AttributeLine atr;
     atr.push_back(3, GL_FLOAT);

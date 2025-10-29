@@ -15,16 +15,12 @@ private:
 public:
 	VBO(const std::vector<T>& data = {});
 	~VBO();
-	GLuint getId();
+	GLuint id() const;
 	void bind() const;
 	void unbind() const;
-
-	void setData(const std::vector<T>& data);
-
+	void set_data(const std::vector<T>& data);
 	void remove_el(GLuint index);
-	
 	void push_back(T element);
-
 	std::vector<T> get_data();
 };
 
@@ -37,7 +33,7 @@ template<typename T>
 VBO<T>::VBO(const std::vector<T>& data)
 {
 	glGenBuffers(1, &_id);
-	setData(data);
+	set_data(data);
 }
 
 template<typename T>
@@ -47,7 +43,7 @@ VBO<T>::~VBO()
 }
 
 template<typename T>
-GLuint VBO<T>::getId()
+GLuint VBO<T>::id() const
 {
 	return _id;
 }
@@ -66,7 +62,7 @@ void VBO<T>::unbind() const
 
 
 template<typename T>
-void VBO<T>::setData(const std::vector<T>& data)
+void VBO<T>::set_data(const std::vector<T>& data)
 {
 	bind();
 	glBufferData(GL_ARRAY_BUFFER, data.size() * sizeof(T), data.data(), GL_DYNAMIC_DRAW);
@@ -88,7 +84,7 @@ void VBO<T>::remove_el(GLuint index)
 		data.erase(data.begin() + index);
 	}
 
-	setData(data);
+	set_data(data);
 
 	unbind();
 }
@@ -106,7 +102,7 @@ void VBO<T>::push_back(T element)
 
 	data.push_back(element);
 
-	setData(data);
+	set_data(data);
 
 	unbind();
 }
