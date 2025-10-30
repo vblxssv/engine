@@ -10,24 +10,6 @@
 #include "EBO.h"
 #include "../attribute/Attribute.h"
 
-
-//class VAO {
-//private:
-//	GLuint _id;
-//public:
-//	VAO(const std::unique_ptr<VBO<GLfloat>>& vbo,
-//		const std::unique_ptr<VBO<GLuint>>& instance_vbo, 
-//		const std::unique_ptr<EBO>& ebo, 
-//		const AttributeLine& attribs);
-//
-//	~VAO();
-//	void bind();
-//	void unbind();
-//	GLuint getId() {
-//		return _id;
-//	}
-//};
-
 class VAO {
 private:
     GLuint _id;
@@ -39,7 +21,10 @@ public:
     GLuint id() const noexcept;
 
     template <typename T>
-    void link_vbo(const VBO<T>& vbo, const AttributeLayout& layout) const;
+    void link_vertex_vbo(const VBO<T>& vbo, const AttributeLayout& layout) const;
+
+    template <typename T>
+    void link_instance_vbo(const VBO<T>& instance_vbo, GLuint attribute_index) const;
 
     void link_ebo(const EBO& ebo) const;
 };
@@ -48,10 +33,10 @@ public:
 
 
 template <typename T>
-void VAO::link_vbo(const VBO<T>& vbo, const AttributeLayout& layout) const {
+void VAO::link_vertex_vbo(const VBO<T>& vbo, const AttributeLayout& layout) const {
     bind();
     vbo.bind();
-    const auto& attributes = layout.get_attributes();
+    const auto& attributes = layout.get_attributes();    
     for (GLuint i = 0; i < attributes.size(); ++i) {
         const auto& attr = attributes[i];
 
@@ -59,16 +44,37 @@ void VAO::link_vbo(const VBO<T>& vbo, const AttributeLayout& layout) const {
         glVertexAttribPointer(
             i,                          // индекс атрибута
             static_cast<GLint>(attr.component_count), // количество компонентов
-            GL_FLOAT,                    // тип данных компонента (тут float, можно расширить)
+            attr.gl_type,                    // тип данных компонента 
             GL_FALSE,                     // нормализация
-            static_cast<GLsizei>(layout.get_full_size()), // stride
+            static_cast<GLsizei>(layout.stride()), // stride
             reinterpret_cast<void*>(attr.offset)        // смещение
         );
     }
-
     vbo.unbind();
     unbind();
 }
+
+template<typename T>
+void VAO::link_instance_vbo(const VBO<T>& instance_vbo, GLuint attribute_index) const
+{
+    static_assert(std::is_same_v<T, GLuint>, "Instance VBO must be of type GLuint");
+
+    bind();
+    instance_vbo.bind();
+    glEnableVertexAttribArray(attribute_index);
+    glVertexAttribIPointer(
+        attribute_index,     // индекс атрибута
+        1,                // количество компонентов (только один uint)
+        GL_UNSIGNED_INT,  // тип данных
+        sizeof(T),        // stride между элементами
+        reinterpret_cast<void*>(0) // смещение внутри буфера
+    );
+    glVertexAttribDivisor(attribute_index, 1); // инстансинг: один атрибут на один instance
+
+    instance_vbo.unbind();
+    unbind();
+}
+
 
 
 

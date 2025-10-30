@@ -2,48 +2,40 @@
 #include <vector>
 #include <cstddef> 
 #include <type_traits>
-
-//class AttributeLayout {
-//public:
-//  
-//
-//private:
-//    std::vector<Attribute> _attributes;
-//    size_t full_size = 0; // полный stride
-//
-//public:
-//    AttributeLayout() = default;
-//
-//    template<typename T>
-//    void push_back(size_t component_count = 1) {
-//        static_assert(std::is_arithmetic_v<T>, "AttributeLayout only supports arithmetic types");
-//        size_t type_size = sizeof(T);
-//        _attributes.push_back({ full_size, component_count, type_size });
-//        full_size += component_count * type_size;
-//    }
-//
-//    const std::vector<Attribute>& get_attributes() const { return _attributes; }
-//    size_t get_full_size() const { return full_size; }
-//};
-
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 class AttributeLayout {
 private:
     struct Attribute {
-        size_t offset;
-        size_t component_count;
-        size_t component_size; 
+        GLintptr offset;
+        GLint component_count;
+        GLsizei component_size; 
         GLenum gl_type;
     };
 
     std::vector<Attribute> _attributes;
-    size_t full_size = 0;
-
-    bool _instanced;
-
+    size_t _stride = 0;
 public:
+    AttributeLayout() = default;
 
+    template<typename T>
+    void add_attribute(GLint component_count)
+    {
+        Attribute a;
+        a.offset = _stride;
+        a.component_count = component_count;
+        a.component_size = sizeof(T);
+        a.gl_type = gl_type<T>();
+        _stride += sizeof(T) * component_count;
+        _attributes.push_back(a);
+    }
 
+    size_t stride() const;
+
+    void print_attrs() const;
+
+    const std::vector<Attribute>& get_attributes() const;
 private:
     template<typename T>
     constexpr GLenum gl_type() {

@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "../resourceLoader/ShaderLoader.h"
 #include "../resourceLoader/TextureLoader.h"
+#include "../memory/VAO.h"
 
 Application::~Application()
 {
@@ -123,7 +124,6 @@ void Application::test_run()
        20,21,22, 22,23,20
     };
 
-
     int side = 30;
     float spacing = 1.f;
     std::vector<glm::mat4> models;
@@ -158,22 +158,25 @@ void Application::test_run()
 
 
 
+    VBO<GLfloat> vbo;
+    vbo.set_data(vertices);
 
-    std::unique_ptr<VBO<GLfloat>> vbo = std::make_unique<VBO<GLfloat>>();
-    vbo->set_data(vertices);
+    EBO ebo;
+    ebo.setData(indices);
 
-    std::unique_ptr<EBO> ebo = std::make_unique<EBO>();
-    ebo->setData(indices);
+    VBO<GLuint> instance_vbo;
+    instance_vbo.set_data(indices_vbo);
 
-    std::unique_ptr<VBO<GLuint>> instanceVBO = std::make_unique<VBO<GLuint>>();
-    instanceVBO->set_data(indices_vbo);
+    AttributeLayout atr;
+    atr.add_attribute<GLfloat>(3);
+    atr.add_attribute<GLfloat>(2);
 
-    AttributeLine atr;
-    atr.push_back(3, GL_FLOAT);
-    atr.push_back(2, GL_FLOAT);
+    VAO vao;
 
-    VAO mesh(vbo, instanceVBO, ebo, atr);
-    mesh.bind();
+    vao.link_vertex_vbo(vbo, atr);
+    vao.link_instance_vbo(instance_vbo, 2);
+    vao.link_ebo(ebo);
+    vao.bind();
 
     SSBO ssbo;
     ssbo.set_data(models);
@@ -196,6 +199,8 @@ void Application::test_run()
         camera.update_position(dt);
         limiter.wait();
     }
+
+
 }
 
 

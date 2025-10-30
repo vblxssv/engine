@@ -1,30 +1,27 @@
 #include "Attribute.h"
+#include <iostream>
 
-AttributeLine::AttributeLine()
+
+
+
+
+
+size_t AttributeLayout::stride() const
 {
-	this->full_size = 0;
+	return _stride;
 }
 
-void AttributeLine::push_back(GLint size, GLenum type) 
+void AttributeLayout::print_attrs() const
 {
-	size_t size_type = get_type_size(type);
-	size_t offset = 0;
-	if (!_attributes.empty()) {
-		offset = _attributes.back().offset + _attributes.back().size * get_type_size(_attributes.back().type);
+	std::cout << "| offset | count | size |" << std::endl;
+	for (const auto& el : _attributes)
+	{
+		std::cout << "| " << el.offset << " | " << el.component_count << " | " << el.component_size << " |\n";
 	}
-	
-	_attributes.push_back(Attribute(size, type, offset));
-
-	full_size += size_type * size;
+	std::cout << "stride: " << _stride << std::endl;
 }
 
-size_t AttributeLine::get_type_size(GLenum type) const {
-	switch (type) {
-		case GL_FLOAT: return sizeof(GLfloat);
-		case GL_INT:   return sizeof(GLint);
-		case GL_UNSIGNED_INT: return sizeof(GLuint);
-		default: return 0;
-	}
+const std::vector<AttributeLayout::Attribute>& AttributeLayout::get_attributes() const
+{
+	return _attributes;
 }
-
-
