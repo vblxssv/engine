@@ -32,6 +32,6 @@ target_link_libraries(${NAME} PRIVATE glfw glad glm)
 
 add_custom_command(TARGET ${NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${CMAKE_SOURCE_DIR}/res
-    $<TARGET_FILE_DIR:${NAME}>/res
+    "${CMAKE_SOURCE_DIR}/res"
+    "$<TARGET_FILE_DIR:${NAME}>/res"
 )
