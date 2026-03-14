@@ -6,9 +6,12 @@
 #include <vector>
 #include <unordered_map>
 #include <memory>
-#include "VBO.h"
-#include "EBO.h"
-#include "../attribute/Attribute.h"
+
+
+#include "graphics/VBO.h"
+#include "graphics/EBO.h"
+#include "graphics/Attribute.h"
+
 
 class VAO {
 private:

@@ -1,6 +1,7 @@
 #include "TextureLoader.h"
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../external/stb_image/stb_image.h"
+#include <memory>
 
 std::string TextureLoader::texture_path = "../res/textures/";
 

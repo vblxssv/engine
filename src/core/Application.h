@@ -1,26 +1,31 @@
 #include <time.h>
 #include <math.h>
 #include <memory>
-
-
-
-#include "../ResourceManager/ResourceManager.h"
-#include "../math/Math.h"
-#include "../camera/Camera.h"
-#include "../IO/Cursor.h"
-#include "../Screen/Screen.h"
-#include "../attribute/Attribute.h"
-#include "../geometry/Geometry.h"
-#include "../object3d/Object3d.h"
-#include "../framelimiter/FrameLimiter.h"
-#include "../Event/Event.h"
-#include "../ssbo/SSBO.h"
-#include "../keyboard/Keyboard.h"
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "../resource/Resource.h"
+
+#include "resources/ResourceManager.h"
+#include "resources/ShaderLoader.h"
+#include "resources/TextureLoader.h"
+#include "resources/Resource.h"
+
+#include "graphics/Camera.h"
+#include "graphics/Attribute.h"
+#include "graphics/VAO.h"
+#include "graphics/SSBO.h"
+
+#include "input/Cursor.h"
+#include "input/Event.h"
+#include "input/Keyboard.h"
+
+#include "core/Screen.h"
+#include "core/FrameLimiter.h"
+
+
+
+
+
 
 
 class Application {

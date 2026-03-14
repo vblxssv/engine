@@ -1,6 +1,6 @@
 #pragma once
-#include "../resource/Resource.h"
-
+#include "resources/Resource.h"
+#include <memory>
 
 class ShaderLoader
 {

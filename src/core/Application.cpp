@@ -1,7 +1,5 @@
 #include "Application.h"
-#include "../resourceLoader/ShaderLoader.h"
-#include "../resourceLoader/TextureLoader.h"
-#include "../memory/VAO.h"
+
 
 Application::~Application()
 {
@@ -11,7 +9,7 @@ Application::~Application()
 Application::Application(int width, int height)
     : screen(width, height, true),
     camera({ 0,0,3 }, { 0,0,-1 }, 90.f),
-    limiter(144)
+    limiter(75)
 {
 
 }

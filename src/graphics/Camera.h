@@ -7,7 +7,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <GLFW/glfw3.h>
-#include "../keyboard/Keyboard.h"
+
+
+#include "input/Keyboard.h"
 
 
 

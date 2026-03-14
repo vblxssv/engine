@@ -2,7 +2,8 @@
 #include <string>
 #include <memory>
 #include <unordered_map>
-#include "../resource/Resource.h"
+#include "resources/Resource.h"
+
 
 class ResourceManager {
 public:

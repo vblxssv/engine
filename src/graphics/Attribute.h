@@ -48,8 +48,6 @@ private:
         else if constexpr (std::is_same_v<T, int32_t>) return GL_INT;
         else if constexpr (std::is_same_v<T, uint32_t>) return GL_UNSIGNED_INT;
         else if constexpr (std::is_same_v<T, bool>) return GL_BOOL;
-        else if constexpr (std::is_same_v<T, int64_t>) return GL_INT64_ARB;
-        else if constexpr (std::is_same_v<T, uint64_t>) return GL_UNSIGNED_INT64_ARB;
         else static_assert(sizeof(T) == 0, "Unsupported type for OpenGL attribute");
     }
 };
