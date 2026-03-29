@@ -21,7 +21,8 @@
 
 #include "core/Screen.h"
 #include "core/FrameLimiter.h"
-
+#include "graphics/Mesh.h"
+#include "graphics/MeshFactory.h"
 
 
 
@@ -52,9 +53,7 @@ public:
 
 	bool init();
 
-	//void run();
-
-	void test_run();	
+	void mac_run();
 };
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);

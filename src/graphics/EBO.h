@@ -11,14 +11,23 @@
 class EBO {
 private:
 	GLuint _id;
-	GLuint indices;
+	GLuint _count;
+	GLenum _usage;
 public:
-	EBO();
-	EBO(const std::vector<GLuint>& data);
+	EBO(GLenum usage = GL_STATIC_DRAW);
+	EBO(const std::vector<GLuint>& data, GLenum usage = GL_STATIC_DRAW);
 	~EBO();
+
+	EBO(const EBO&) = delete;
+	EBO& operator=(const EBO&) = delete;
+
+	EBO(EBO&& other) noexcept;
+	EBO& operator=(EBO&& other) noexcept;
+
+
 	void bind() const;
 	void unbind() const;
-	void setData(const std::vector<GLuint>& data);
-	GLuint getId() const;
-	GLuint get_indices();
+	void set_data(const std::vector<GLuint>& data);
+	GLuint get_id() const;
+	GLuint get_count() const;
 };

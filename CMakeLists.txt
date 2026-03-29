@@ -14,7 +14,12 @@ file(GLOB_RECURSE SRC_FILES
 )
 
 
-add_executable(${NAME} ${SRC_FILES})
+add_executable(${NAME} ${SRC_FILES}
+        src/graphics/VBO.cpp
+        src/graphics/Mesh.cpp
+        src/graphics/Mesh.h
+        src/graphics/MeshFactory.cpp
+        src/graphics/MeshFactory.h)
 
 
 # папка src является корнем для поиска заголовков
