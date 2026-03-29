@@ -70,7 +70,7 @@ void Application::mac_run()
     std::shared_ptr<Shader> shader = std::static_pointer_cast<Shader>(resource_manager.get_resource("mac"));
     std::shared_ptr<Texture> texture = std::static_pointer_cast<Texture>(resource_manager.get_resource("texture"));
 
-    Mesh mesh = MeshFactory::CreateTorus();
+    Mesh mesh = MeshFactory::CreateTexturedTorus();
 
 
     auto projection = glm::perspective(glm::radians(camera.get_fov()), screen.aspect(), 0.1f, 100.0f);
