@@ -53,7 +53,7 @@ public:
 
 	bool init();
 
-	void mac_run();
+	void run();
 };
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);

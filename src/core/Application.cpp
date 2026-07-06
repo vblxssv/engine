@@ -59,15 +59,15 @@ bool Application::init()
     return true;
 }
 
-void Application::mac_run()
+void Application::run()
 {
-    resource_manager.add_resource("mac", ShaderLoader::load(
+    resource_manager.add_resource("basic_shader", ShaderLoader::load(
           "mac_textured_3d/vertex.txt",
         "mac_textured_3d/fragment.txt"
     ));
-    resource_manager.add_resource("texture", TextureLoader::load("sexiest.png"));
+    resource_manager.add_resource("texture", TextureLoader::load("oil.jpg"));
 
-    std::shared_ptr<Shader> shader = std::static_pointer_cast<Shader>(resource_manager.get_resource("mac"));
+    std::shared_ptr<Shader> shader = std::static_pointer_cast<Shader>(resource_manager.get_resource("basic_shader"));
     std::shared_ptr<Texture> texture = std::static_pointer_cast<Texture>(resource_manager.get_resource("texture"));
 
     Mesh mesh = MeshFactory::CreateTexturedTorus();

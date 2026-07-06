@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
 	if (!app.init()) {
 		return -1;
 	}
-	app.mac_run();
+	app.run();
 }
 
 
