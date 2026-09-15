@@ -4,8 +4,8 @@ Camera::Camera(const glm::vec3& pos, const glm::vec3& forward, float fov) : forw
 {
 	yaw = glm::degrees(atan2(forward.z, forward.x));  
 	pitch = glm::degrees(asin(forward.y));  
-    acceleration = 5;
-    damping = 0.91;
+    acceleration = 5.f;
+    damping = 0.91f;
 }
 
 void Camera::move(const glm::vec3& delta)
@@ -98,12 +98,12 @@ void Camera::update_position(float dt)
 
 void Camera::rotate_horizontal(double x_offset)
 {
-    rotate_yaw(x_offset * horizontal_speed);
+    rotate_yaw(static_cast<float>(x_offset) * horizontal_speed);
 }
 
 void Camera::rotate_vertical(double y_offset)
 {
-    rotate_pitch(-y_offset * vertical_speed);
+    rotate_pitch(static_cast<float>(-y_offset) * vertical_speed);
 }
 
 void Camera::update_forward()

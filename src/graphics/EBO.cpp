@@ -14,7 +14,7 @@ EBO::EBO(const std::vector<GLuint>& data, GLenum usage)
 :_usage(usage)
 {
     glGenBuffers(1, &_id);
-    _count = data.size();
+    _count = static_cast<GLuint>(data.size());
     set_data(data);
 }
 
@@ -63,7 +63,7 @@ void EBO::unbind() const
 void EBO::set_data(const std::vector<GLuint>& data)
 {
     bind();
-    this->_count = data.size();
+    this->_count = static_cast<GLuint>(data.size());
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GLuint), data.data(), _usage);
     unbind();
 }

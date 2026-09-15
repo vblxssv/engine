@@ -20,7 +20,7 @@ private:
 
 	float acceleration, damping;
 	glm::vec3 speed;
-	float horizontal_speed = 0.15, vertical_speed = 0.15;
+	float horizontal_speed = 0.15f, vertical_speed = 0.15f;
 
 	float yaw, pitch, fov;
 public:

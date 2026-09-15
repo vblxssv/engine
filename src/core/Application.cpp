@@ -78,7 +78,7 @@ void Application::run()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         double dt = limiter.getDeltaTime();
 
-        rotationAngle += rotationSpeed * (float)dt;
+        rotationAngle += rotationSpeed * static_cast<float>(dt);
         if (rotationAngle > 360.0f) rotationAngle -= 360.0f;
 
         view = camera.get_view();
@@ -95,7 +95,7 @@ void Application::run()
         glfwSwapBuffers(screen.getWin());
         screen.update();
         camera.set_speed_on_keys(keyboard);
-        camera.update_position(dt);
+        camera.update_position(static_cast<float>(dt));
         limiter.wait();
     }
 }

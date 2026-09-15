@@ -48,16 +48,22 @@ public:
     GLsizei stride() const { return _stride; }
 
 private:
+    template<typename>
+    static constexpr bool always_false_v = false;
+
     template<typename T>
     static constexpr GLenum get_gl_type() {
-        if constexpr (std::is_same_v<T, float>)    return GL_FLOAT;
-        if constexpr (std::is_same_v<T, int32_t>)  return GL_INT;
-        if constexpr (std::is_same_v<T, uint32_t>) return GL_UNSIGNED_INT;
-        if constexpr (std::is_same_v<T, int8_t>)   return GL_BYTE;
-        if constexpr (std::is_same_v<T, uint8_t>)  return GL_UNSIGNED_BYTE;
-        if constexpr (std::is_same_v<T, int16_t>)  return GL_SHORT;
-        if constexpr (std::is_same_v<T, uint16_t>) return GL_UNSIGNED_SHORT;
-        if constexpr (std::is_same_v<T, double>)   return GL_DOUBLE;
-        return 0;
+        if constexpr (std::is_same_v<T, float>)         return GL_FLOAT;
+        else if constexpr (std::is_same_v<T, int32_t>)  return GL_INT;
+        else if constexpr (std::is_same_v<T, uint32_t>) return GL_UNSIGNED_INT;
+        else if constexpr (std::is_same_v<T, int8_t>)   return GL_BYTE;
+        else if constexpr (std::is_same_v<T, uint8_t>)  return GL_UNSIGNED_BYTE;
+        else if constexpr (std::is_same_v<T, int16_t>)  return GL_SHORT;
+        else if constexpr (std::is_same_v<T, uint16_t>) return GL_UNSIGNED_SHORT;
+        else if constexpr (std::is_same_v<T, double>)   return GL_DOUBLE;
+        else {
+            static_assert(always_false_v<T>, "Unsupported attribute type");
+            return 0;
+        }
     }
 };

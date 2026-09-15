@@ -32,6 +32,12 @@ set_target_properties(${NAME} PROPERTIES
     VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${NAME}>"
 )
 
+# строгие предупреждения только для нашего кода (не затрагивают внешние библиотеки)
+target_compile_options(${NAME} PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Werror>
+)
+
 # 4. Настройки зависимостей (GLFW)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE) 
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE) 
