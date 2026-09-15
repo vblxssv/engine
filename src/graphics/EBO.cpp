@@ -2,7 +2,7 @@
 
 
 EBO::EBO(GLenum usage)
-:_usage(usage), _count(0)
+:_count(0), _usage(usage)
 {
     glGenBuffers(1, &_id);
     set_data({});

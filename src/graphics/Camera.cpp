@@ -1,6 +1,6 @@
 #include "Camera.h"
 
-Camera::Camera(const glm::vec3& pos, const glm::vec3& forward, float fov) : forward(forward), position(pos), fov(fov), speed(0, 0 ,0)
+Camera::Camera(const glm::vec3& pos, const glm::vec3& forward, float fov) : position(pos), forward(forward), speed(0, 0 ,0), fov(fov)
 {
 	yaw = glm::degrees(atan2(forward.z, forward.x));  
 	pitch = glm::degrees(asin(forward.y));  

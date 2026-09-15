@@ -1,6 +1,6 @@
 #include "Screen.h"
 
-Screen::Screen(int w, int h, bool windowed) : width(w), height(h), windowed(windowed), pwindow(nullptr, glfwDestroyWindow)
+Screen::Screen(int w, int h) : width(w), height(h), pwindow(nullptr, glfwDestroyWindow)
 {
     if (!glfwInit()) {
         throw std::runtime_error("GLFW initialization failed!");
@@ -14,7 +14,7 @@ Screen::Screen(int w, int h, bool windowed) : width(w), height(h), windowed(wind
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     #endif
 
-    glfwWindowHint(GLFW_RESIZABLE, windowed ? GL_TRUE : GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
     pwindow.reset(glfwCreateWindow(width, height, "Screen", nullptr, nullptr));
 

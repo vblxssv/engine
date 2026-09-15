@@ -7,8 +7,8 @@ Application::~Application()
 }
 
 Application::Application(const AppConfig& config)
-    : screen(config.width, config.height, true),
-    camera({ 0,0,0 }, { 0,0,-1 }, config.fov),
+    : camera({ 0,0,0 }, { 0,0,-1 }, config.fov),
+     screen(config.width, config.height),
     limiter(config.fps_limit)
 {
     if (!glfwInit())

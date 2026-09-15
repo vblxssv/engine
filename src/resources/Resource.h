@@ -29,6 +29,7 @@ public:
     GLuint id() const;
     int width() const;
     int height() const;
+    int channels() const;
 };
 
 

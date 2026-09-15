@@ -7,11 +7,10 @@
 class Screen {
 private:
     int width, height;
-    bool windowed;
     std::unique_ptr<GLFWwindow, decltype(&glfwDestroyWindow)> pwindow;
 
 public:
-    Screen(int w, int h, bool windowed);
+    Screen(int w, int h);
 
     float aspect() const {
         return static_cast<float>(width) / static_cast<float>(height);
