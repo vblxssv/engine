@@ -23,8 +23,6 @@ private:
 	float horizontal_speed = 0.15, vertical_speed = 0.15;
 
 	float yaw, pitch, fov;
-
-	GLuint view_loc;	
 public:
 	Camera(const glm::vec3& pos, const glm::vec3& forward, float fov);
 
@@ -49,8 +47,6 @@ public:
 	void rotate_vertical(double y_offset);
 private:
 	void update_forward();
-
-	void update_view();
 
 	int key_forward = GLFW_KEY_W;
 	int key_back = GLFW_KEY_S;

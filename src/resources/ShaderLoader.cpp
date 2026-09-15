@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-std::string ShaderLoader::shader_path = "../res/shaders/";
+std::string ShaderLoader::shader_path = "res/shaders/";
 
 
 std::shared_ptr<Shader> ShaderLoader::load(const std::string& vertex_path, const std::string& fragment_path)

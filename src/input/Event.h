@@ -40,7 +40,7 @@ private:
 };
 
 
-class MouseEvent : Event {
+class MouseEvent : public Event {
 private:
     double xpos;
     double ypos;

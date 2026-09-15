@@ -6,32 +6,22 @@ Application::~Application()
     glfwTerminate();
 }
 
-Application::Application(int width, int height)
-    : screen(width, height, true),
-    camera({ 0,0,0 }, { 0,0,-1 }, 90.f),
-    limiter(75)
+Application::Application(const AppConfig& config)
+    : screen(config.width, config.height, true),
+    camera({ 0,0,0 }, { 0,0,-1 }, config.fov),
+    limiter(config.fps_limit)
 {
+    if (!glfwInit())
+        throw std::runtime_error("Failed to initialize GLFW");
 
-}
-
-bool Application::init()
-{
-    if (!glfwInit()) {
-        std::cerr << "Ошибка инициализации GLFW!" << std::endl;
-        return false;
-    }
-
-    if (!screen.isInited()) {
-        std::cerr << "Ошибка создания окна в Screen!" << std::endl;
-        return false;
-    }
+    if (!screen.isInited())
+        throw std::runtime_error("Failed to create window");
 
     glfwMakeContextCurrent(screen.getWin());
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cerr << "Ошибка инициализации GLAD!" << std::endl;
-        return false;
-    }
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        throw std::runtime_error("Failed to initialize GLAD");
+
     std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
     glEnable(GL_DEPTH_TEST);
 
@@ -55,8 +45,6 @@ bool Application::init()
         camera.rotate_horizontal(offsets.first);
         camera.rotate_vertical(offsets.second);
     });
-
-    return true;
 }
 
 void Application::run()
@@ -67,8 +55,8 @@ void Application::run()
     ));
     resource_manager.add_resource("texture", TextureLoader::load("oil.jpg"));
 
-    std::shared_ptr<Shader> shader = std::static_pointer_cast<Shader>(resource_manager.get_resource("basic_shader"));
-    std::shared_ptr<Texture> texture = std::static_pointer_cast<Texture>(resource_manager.get_resource("texture"));
+    auto  shader  = resource_manager.get<Shader>("basic_shader");
+    auto  texture = resource_manager.get<Texture>("texture");
 
     Mesh mesh = MeshFactory::CreateTexturedTorus();
 
@@ -113,26 +101,14 @@ void Application::run()
 }
 
 
-
-
-
-
-
-
-
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void Application::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
     auto* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
-    KeyPressEvent kpe(key, scancode, action, mods);
-    auto events = app->get_event_manager();
-    events.emit(kpe);
+    app->event_manager.emit(KeyPressEvent(key, scancode, action, mods));
 }
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+void Application::mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
     auto* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
-    MouseEvent me(xpos, ypos);
-    auto events = app->get_event_manager();
-    events.emit(me);
+    app->event_manager.emit(MouseEvent(xpos, ypos));
 }

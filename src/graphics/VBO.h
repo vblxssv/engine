@@ -24,7 +24,6 @@ public:
 	VBO& operator=(VBO&& other) noexcept {
 		if (this != &other) {
 			if (_id != 0) glDeleteBuffers(1, &_id);
-			glDeleteBuffers(1, &_id);
 			_id = other._id;
 			_usage = other._usage;
 			other._id = 0;

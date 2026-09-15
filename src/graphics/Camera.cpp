@@ -86,7 +86,6 @@ void Camera::set_speed_on_keys(const Keyboard& keyboard)
 void Camera::update_position(float dt)
 {
     move(speed * dt);
-    std::cout << glm::length(speed) << std::endl;
     //float damping_factor = std::pow(damping, dt);
     speed *= damping;
  
@@ -120,7 +119,3 @@ void Camera::update_forward()
     forward = glm::normalize(forward);
 }
 
-void Camera::update_view()
-{
-    glUniformMatrix4fv(view_loc, 1, GL_FALSE, glm::value_ptr(get_view()));
-}

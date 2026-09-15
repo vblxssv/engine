@@ -19,11 +19,18 @@ add_executable(${NAME} ${SRC_FILES}
         src/graphics/Mesh.cpp
         src/graphics/Mesh.h
         src/graphics/MeshFactory.cpp
-        src/graphics/MeshFactory.h)
+        src/graphics/MeshFactory.h
+        src/core/AppConfig.h
+        src/core/IniParser.h)
 
 
 # папка src является корнем для поиска заголовков
 target_include_directories(${NAME} PRIVATE src)
+
+# рабочая директория отладчика VS = папка с exe (там лежит res/)
+set_target_properties(${NAME} PROPERTIES
+    VS_DEBUGGER_WORKING_DIRECTORY "$<TARGET_FILE_DIR:${NAME}>"
+)
 
 # 4. Настройки зависимостей (GLFW)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE) 

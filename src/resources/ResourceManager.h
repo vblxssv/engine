@@ -7,12 +7,20 @@
 
 class ResourceManager {
 public:
-	void add_resource(const std::string& id, std::shared_ptr<IResource> new_resource);
-	bool exist(const std::string& id);
-	std::shared_ptr<IResource> get_resource(const std::string& id);
-	void remove(const std::string& id);
+    void add_resource(const std::string& id, std::shared_ptr<IResource> new_resource);
+    bool exist(const std::string& id);
+    void remove(const std::string& id);
+
+    template<typename T>
+    std::shared_ptr<T> get(const std::string& id) {
+        auto it = resource_map.find(id);
+        if (it == resource_map.end())
+            return nullptr;
+        return std::dynamic_pointer_cast<T>(it->second);
+    }
+
 private:
-	std::unordered_map<std::string, std::shared_ptr<IResource>> resource_map;
+    std::unordered_map<std::string, std::shared_ptr<IResource>> resource_map;
 };
 
 

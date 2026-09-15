@@ -3,7 +3,7 @@
 #include "../../external/stb_image/stb_image.h"
 #include <memory>
 
-std::string TextureLoader::texture_path = "../res/textures/";
+std::string TextureLoader::texture_path = "res/textures/";
 
 std::shared_ptr<Texture> TextureLoader::load(const std::string& path)
 {
