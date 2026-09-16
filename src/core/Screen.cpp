@@ -2,10 +2,6 @@
 
 Screen::Screen(int w, int h) : width(w), height(h), pwindow(nullptr, glfwDestroyWindow)
 {
-    if (!glfwInit()) {
-        throw std::runtime_error("GLFW initialization failed!");
-    }
-
     #ifdef __APPLE__
         std::cout << "Works on apple!" << std::endl;
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -19,7 +15,6 @@ Screen::Screen(int w, int h) : width(w), height(h), pwindow(nullptr, glfwDestroy
     pwindow.reset(glfwCreateWindow(width, height, "Screen", nullptr, nullptr));
 
     if (!pwindow) {
-        glfwTerminate();
         throw std::runtime_error("Failed to create GLFW window");
     }
 

@@ -1,79 +1,71 @@
 #include "EBO.h"
 
-
-EBO::EBO(GLenum usage)
-:_count(0), _usage(usage)
+IndexBuffer::IndexBuffer(GLenum usage)
+    : id_(0), count_(0), usage_(usage)
 {
-    glGenBuffers(1, &_id);
-    set_data({});
-
+    glGenBuffers(1, &id_);
 }
 
-
-EBO::EBO(const std::vector<GLuint>& data, GLenum usage)
-:_usage(usage)
+IndexBuffer::IndexBuffer(const std::vector<uint32_t>& data, GLenum usage)
+    : id_(0), count_(0), usage_(usage)
 {
-    glGenBuffers(1, &_id);
-    _count = static_cast<GLuint>(data.size());
-    set_data(data);
+    glGenBuffers(1, &id_);
+    setData(data);
 }
 
-
-EBO::~EBO()
+IndexBuffer::~IndexBuffer()
 {
-    if (_id != 0)
-        glDeleteBuffers(1, &_id);
+    if (id_ != 0) {
+        glDeleteBuffers(1, &id_);
+    }
 }
 
-
-EBO::EBO(EBO&& other) noexcept
-    : _id(other._id), _count(other._count), _usage(other._usage) {
-    other._id = 0;
-    other._count = 0;
+IndexBuffer::IndexBuffer(IndexBuffer&& other) noexcept
+    : id_(other.id_), count_(other.count_), usage_(other.usage_)
+{
+    other.id_ = 0;
+    other.count_ = 0;
 }
 
-
-EBO& EBO::operator=(EBO&& other) noexcept {
+IndexBuffer& IndexBuffer::operator=(IndexBuffer&& other) noexcept
+{
     if (this != &other) {
-        if (_id != 0) glDeleteBuffers(1, &_id);
+        if (id_ != 0) {
+            glDeleteBuffers(1, &id_);
+        }
+        id_ = other.id_;
+        count_ = other.count_;
+        usage_ = other.usage_;
 
-        _id = other._id;
-        _count = other._count;
-        _usage = other._usage;
-
-        other._id = 0;
-        other._count = 0;
+        other.id_ = 0;
+        other.count_ = 0;
     }
     return *this;
 }
 
-
-void EBO::bind() const
+void IndexBuffer::bind() const
 {
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _id);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_);
 }
 
-
-void EBO::unbind() const
+void IndexBuffer::unbind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-
-void EBO::set_data(const std::vector<GLuint>& data)
+void IndexBuffer::setData(const uint32_t* data, size_t count)
 {
     bind();
-    this->_count = static_cast<GLuint>(data.size());
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(GLuint), data.data(), _usage);
-    unbind();
+    count_ = static_cast<GLuint>(count);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, static_cast<GLsizeiptr>(count * sizeof(uint32_t)), data, usage_);
 }
 
-
-GLuint EBO::get_id() const {
-    return _id;
+uint32_t IndexBuffer::id() const
+{
+    return id_;
 }
 
-
-GLuint EBO::get_count() const {
-    return _count;
+uint32_t IndexBuffer::count() const
+{
+    return count_;
 }

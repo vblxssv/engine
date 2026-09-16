@@ -1,33 +1,35 @@
 #pragma once
-#include <string>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
-#include <unordered_map>
 
 
-
-class EBO {
+class IndexBuffer {
 private:
-	GLuint _id;
-	GLuint _count;
-	GLenum _usage;
+	GLuint id_ = 0;
+	GLuint count_ = 0;
+	GLenum usage_;
 public:
-	EBO(GLenum usage = GL_STATIC_DRAW);
-	EBO(const std::vector<GLuint>& data, GLenum usage = GL_STATIC_DRAW);
-	~EBO();
+	IndexBuffer(GLenum usage = GL_STATIC_DRAW);
+	IndexBuffer(const std::vector<uint32_t>& data, GLenum usage = GL_STATIC_DRAW);
+	~IndexBuffer();
 
-	EBO(const EBO&) = delete;
-	EBO& operator=(const EBO&) = delete;
+	IndexBuffer(const IndexBuffer&) = delete;
+	IndexBuffer& operator=(const IndexBuffer&) = delete;
 
-	EBO(EBO&& other) noexcept;
-	EBO& operator=(EBO&& other) noexcept;
-
+	IndexBuffer(IndexBuffer&& other) noexcept;
+	IndexBuffer& operator=(IndexBuffer&& other) noexcept;
 
 	void bind() const;
 	void unbind() const;
-	void set_data(const std::vector<GLuint>& data);
-	GLuint get_id() const;
-	GLuint get_count() const;
+
+	void setData(const uint32_t* data, size_t count);
+
+	void setData(const std::vector<uint32_t>& data) {
+		setData(data.data(), data.size());
+	}
+
+	uint32_t id() const;
+	uint32_t count() const;
 };

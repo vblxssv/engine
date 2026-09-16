@@ -23,6 +23,11 @@ public:
     Texture(GLuint id, int width, int height, int channels);
     ~Texture();
 
+    Texture(const Texture& other) = delete;
+    Texture(Texture&& other) = delete;
+    Texture& operator=(const Texture& other) = delete;
+    Texture& operator=(Texture&& other) = delete;
+
     void bind(GLenum target = GL_TEXTURE_2D) const;
     void activate(GLenum slot = GL_TEXTURE0) const;
 
@@ -40,6 +45,11 @@ private:
 public:
 	Shader(GLuint id);
 	~Shader();
+
+    Shader(const Shader& other) = delete;
+    Shader(Shader&& other) = delete;
+    Shader& operator=(const Shader& other) = delete;
+    Shader& operator=(Shader&& other) = delete;
 
 	void use();
 

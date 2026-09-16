@@ -1,18 +1,23 @@
 #pragma once
 #include <vector>
+#include <cstdint>
+#include <type_traits>
 #include <glad/glad.h>
 
 
 class AttributeLayout {
-private:
+public:
     struct Attribute {
         GLuint index;
         GLint component_count;
         GLenum gl_type;
         GLboolean normalized;
+        bool is_integer;
         GLsizei offset;
+        GLuint divisor;
     };
 
+private:
     std::vector<Attribute> _attributes;
     GLsizei _stride = 0;
 
@@ -20,32 +25,57 @@ public:
     AttributeLayout() = default;
 
     template<typename T>
-    void add_attribute(GLuint index, GLint count, bool normalized = false) {
+    void add_attribute(GLuint index, GLint count, bool normalized = false, GLuint divisor = 0) {
+        constexpr bool is_int = std::is_integral_v<T>;
         _attributes.push_back({
             index,
             count,
             get_gl_type<T>(),
             static_cast<GLboolean>(normalized ? GL_TRUE : GL_FALSE),
-            _stride
+            is_int,
+            _stride,
+            divisor
         });
         _stride += static_cast<GLsizei>(sizeof(T) * count);
+    }
+
+    void add_matrix4_attribute(GLuint start_index, GLuint divisor = 1) {
+        for (GLuint i = 0; i < 4; ++i) {
+            add_attribute<float>(start_index + i, 4, false, divisor);
+        }
     }
 
     void apply() const {
         for (const auto& attr : _attributes) {
             glEnableVertexAttribArray(attr.index);
-            glVertexAttribPointer(
-                attr.index,
-                attr.component_count,
-                attr.gl_type,
-                attr.normalized,
-                _stride, // Общий шаг всей структуры
-                (const void*)(uintptr_t)attr.offset // Смещение внутри структуры
-            );
+
+            if (attr.is_integer && !attr.normalized) {
+                glVertexAttribIPointer(
+                    attr.index,
+                    attr.component_count,
+                    attr.gl_type,
+                    _stride,
+                    reinterpret_cast<const void*>(static_cast<uintptr_t>(attr.offset))
+                );
+            } else {
+                glVertexAttribPointer(
+                    attr.index,
+                    attr.component_count,
+                    attr.gl_type,
+                    attr.normalized,
+                    _stride,
+                    reinterpret_cast<const void*>(static_cast<uintptr_t>(attr.offset))
+                );
+            }
+
+            if (attr.divisor > 0) {
+                glVertexAttribDivisor(attr.index, attr.divisor);
+            }
         }
     }
 
     GLsizei stride() const { return _stride; }
+    const std::vector<Attribute>& get_attributes() const { return _attributes; }
 
 private:
     template<typename>

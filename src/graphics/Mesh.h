@@ -6,9 +6,9 @@
 
 class Mesh {
 private:
-    VAO _vao;
-    VBO<GLfloat> _vbo;
-    EBO _ebo;
+    VertexArray _vao;
+    VertexBuffer _vbo;
+    IndexBuffer _ebo;
 public:
     Mesh(const std::vector<float>& vertices,
         const std::vector<uint32_t>& indices,
